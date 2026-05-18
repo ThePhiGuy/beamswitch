@@ -1,32 +1,38 @@
 #include "switch_control.h"
-#include "config.h"
 
-static void pulsePin(uint8_t pin) {
+CoaxialSwitch::CoaxialSwitch(uint8_t port1, uint8_t port2) {
+  port1Pin = port1;
+  port2Pin = port2;
+  init();
+}
+
+static void CoaxialSwitch::pulsePin(uint8_t pin) {
   digitalWrite(pin, HIGH);
   delay(PULSE_MS);
   digitalWrite(pin, LOW);
 }
 
-void switchInit() {
-  pinMode(PORT1_PIN, OUTPUT);
-  pinMode(PORT2_PIN, OUTPUT);
+void CoaxialSwitch::init() {
+  pinMode(port1Pin, OUTPUT);
+  pinMode(port2Pin, OUTPUT);
 
-  digitalWrite(PORT1_PIN, LOW);
-  digitalWrite(PORT2_PIN, LOW);
+  digitalWrite(port1Pin, LOW);
+  digitalWrite(port2Pin, LOW);
 }
 
-void pulsePort1() {
-  pulsePin(PORT1_PIN);
+void CoaxialSwitch::pulsePort1() {
+  pulsePin(port1Pin);
 }
 
-void pulsePort2() {
-  pulsePin(PORT2_PIN);
+void CoaxialSwitch::pulsePort2() {
+  pulsePin(port2Pin);
 }
 
-void switchToPort1() {
+void CoaxialSwitch::switchToPort1() {
   pulsePort1();
 }
 
-void switchToPort2() {
+void CoaxialSwitch::switchToPort2() {
   pulsePort2();
 }
+

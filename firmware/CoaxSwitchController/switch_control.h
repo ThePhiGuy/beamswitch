@@ -5,12 +5,20 @@
 #include <Arduino.h>
 
 
-void switchInit();
+#define PULSE_MS 50
 
-void switchToPort1();
-void switchToPort2();
-
-void pulsePort1();
-void pulsePort2();
+class CoaxialSwitch {
+  public:
+    CoaxialSwitch(uint8_t port1, uint8_t port2);
+    void switchToPort1();
+    void switchToPort2();
+  private:
+    void pulsePin(uint8_t pin);
+    void pulsePort1();
+    void pulsePort2();
+    void init();
+    uint8_t port1Pin;
+    uint8_t port2Pin;
+};
 
 #endif
