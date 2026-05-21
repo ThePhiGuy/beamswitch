@@ -9,16 +9,14 @@
 
 class CoaxialSwitch {
   public:
-    CoaxialSwitch(uint8_t port1, uint8_t port2);
-    void switchToPort1();
-    void switchToPort2();
+    CoaxialSwitch(uint8_t* pins, uint32_t count);
+    void CoaxialSwitch::selectPort(uint8_t port);
   private:
     void pulsePin(uint8_t pin);
-    void pulsePort1();
-    void pulsePort2();
+    void pulsePort(uint8_t port);
     void init();
-    uint8_t port1Pin;
-    uint8_t port2Pin;
+    uint8_t* portPins;
+    uint32_t portCount;
 };
 
 #endif

@@ -1,8 +1,8 @@
 #include "switch_control.h"
 
-CoaxialSwitch::CoaxialSwitch(uint8_t port1, uint8_t port2) {
-  port1Pin = port1;
-  port2Pin = port2;
+CoaxialSwitch::CoaxialSwitch(uint8_t* pins, uint32_t count) {
+  portPins = pins;
+  portCount = count;
   init();
 }
 
@@ -13,26 +13,22 @@ static void CoaxialSwitch::pulsePin(uint8_t pin) {
 }
 
 void CoaxialSwitch::init() {
-  pinMode(port1Pin, OUTPUT);
-  pinMode(port2Pin, OUTPUT);
-
-  digitalWrite(port1Pin, LOW);
-  digitalWrite(port2Pin, LOW);
+  for (int i = 0; i < portCount; i++) {
+    pinMode(portPins[i], OUTPUT);
+    digitalWrite(portPins[i], LOW);
+  }
 }
 
-void CoaxialSwitch::pulsePort1() {
-  pulsePin(port1Pin);
+void CoaxialSwitch::pulsePort(uint8_t port) {
+  pulsePin(portPins[port-1]);
 }
 
-void CoaxialSwitch::pulsePort2() {
-  pulsePin(port2Pin);
+void CoaxialSwitch::selectPort(uint8_t port) {
+  if ((port - 1) > portCount) {
+    return;
+  } else if (port < 1) {
+    return;
+  }
+  pulsePort(port);
+  return;
 }
-
-void CoaxialSwitch::switchToPort1() {
-  pulsePort1();
-}
-
-void CoaxialSwitch::switchToPort2() {
-  pulsePort2();
-}
-

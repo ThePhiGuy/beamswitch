@@ -1,31 +1,40 @@
 #include "switch_control.h"
 
-  CoaxialSwitch switch1(52, 50);
-  CoaxialSwitch switch2(48, 46);
-  CoaxialSwitch switch3(44, 42);
+uint8_t switchPins[] = {52, 50};
+
+CoaxialSwitch switch1(switchPins, 2);
 
 void setup() {
-  CoaxialSwitch switch1(52, 50);
-  CoaxialSwitch switch2(48, 46);
+
+  Serial.begin(115200);
+
+  Serial.println("Coax Switch Control Ready");
+  Serial.println("Send 1 or 2 to select a port");
 }
 
 void loop() {
-  switch1.switchToPort1();
-  delay(100);
 
-  switch1.switchToPort2();
-  delay(100);
+  if (Serial.available() > 0) {
 
-  switch2.switchToPort1();
-  delay(100);
+    char cmd = Serial.read();
 
-  switch2.switchToPort2();
-  delay(100);
+    if (cmd == '1') {
 
-  switch3.switchToPort1();
-  delay(100);
+      Serial.println("Selecting Port 1");
+      switch1.selectPort(1);
 
-  switch3.switchToPort2();
-  delay(100);
+    } else if (cmd == '2') {
 
+      Serial.println("Selecting Port 2");
+      switch1.selectPort(2);
+
+    } else if (cmd == '\n' || cmd == '\r') {
+
+      // Ignore newline characters
+
+    } else {
+
+      Serial.println("Invalid command");
+    }
+  }
 }
